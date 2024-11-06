@@ -1,7 +1,41 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Elegant reading of real-time and hottest news" />
+  <meta name="theme-color" content="#F14D42" />
+  <link rel="preload" href="/Baloo2-Bold.subset.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <script>
+    function safeParseString(str) {
+      try {
+        return JSON.parse(str)
+      } catch {
+        return ""
+      }
+    }
+    const theme = safeParseString(localStorage.getItem("color-scheme")) || "auto"
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+    if (theme === "auto" ? isDark : theme === "dark") {
+      document.documentElement.classList.add("dark")
+    }
+
+    const query = new URLSearchParams(window.location.search)
+    if (query.has("login") && query.has("user") && query.has("jwt")) {
+      localStorage.setItem("user", query.get("user"))
+      localStorage.setItem("jwt", JSON.stringify(query.get("jwt")))
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+  </script>
+  <title>NewsNow</title>
+</head>
+
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <div id="app"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
+
 </html>
